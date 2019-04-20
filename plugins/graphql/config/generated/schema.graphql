@@ -1,81 +1,17 @@
-type Article {
-  _id: ID!
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  title: String
-  content: String
-}
-
-type ArticleAggregator {
-  count: Int
-  totalCount: Int
-}
-
-type ArticleConnection {
-  values: [Article]
-  groupBy: ArticleGroupBy
-  aggregate: ArticleAggregator
-}
-
-type ArticleConnection_id {
-  key: ID
-  connection: ArticleConnection
-}
-
-type ArticleConnectionContent {
-  key: String
-  connection: ArticleConnection
-}
-
-type ArticleConnectionCreatedAt {
-  key: DateTime
-  connection: ArticleConnection
-}
-
-type ArticleConnectionId {
-  key: ID
-  connection: ArticleConnection
-}
-
-type ArticleConnectionTitle {
-  key: String
-  connection: ArticleConnection
-}
-
-type ArticleConnectionUpdatedAt {
-  key: DateTime
-  connection: ArticleConnection
-}
-
-type ArticleGroupBy {
-  _id: [ArticleConnection_id]
-  id: [ArticleConnectionId]
-  createdAt: [ArticleConnectionCreatedAt]
-  updatedAt: [ArticleConnectionUpdatedAt]
-  title: [ArticleConnectionTitle]
-  content: [ArticleConnectionContent]
-}
-
-input ArticleInput {
-  title: String
-  content: String
-}
-
-input createArticleInput {
-  data: ArticleInput
-}
-
-type createArticlePayload {
-  article: Article
-}
-
 input createRoleInput {
   data: RoleInput
 }
 
 type createRolePayload {
   role: UsersPermissionsRole
+}
+
+input createTicketInput {
+  data: TicketInput
+}
+
+type createTicketPayload {
+  ticket: Ticket
 }
 
 input createUserInput {
@@ -91,14 +27,6 @@ The `DateTime` scalar represents a date and time following the ISO 8601 standard
 """
 scalar DateTime
 
-input deleteArticleInput {
-  where: InputID
-}
-
-type deleteArticlePayload {
-  article: Article
-}
-
 input deleteRoleInput {
   where: InputID
 }
@@ -107,17 +35,20 @@ type deleteRolePayload {
   role: UsersPermissionsRole
 }
 
+input deleteTicketInput {
+  where: InputID
+}
+
+type deleteTicketPayload {
+  ticket: Ticket
+}
+
 input deleteUserInput {
   where: InputID
 }
 
 type deleteUserPayload {
   user: UsersPermissionsUser
-}
-
-input editArticleInput {
-  title: String
-  content: String
 }
 
 input editFileInput {
@@ -139,6 +70,12 @@ input editRoleInput {
   type: String
   permissions: [ID]
   users: [ID]
+}
+
+input editTicketInput {
+  name: String
+  description: String
+  price: Float
 }
 
 input editUserInput {
@@ -177,12 +114,12 @@ scalar JSON
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Article | createArticlePayload | updateArticlePayload | deleteArticlePayload | ArticleConnection | ArticleAggregator | ArticleGroupBy | ArticleConnection_id | ArticleConnectionId | ArticleConnectionCreatedAt | ArticleConnectionUpdatedAt | ArticleConnectionTitle | ArticleConnectionContent | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileGroupBy | UploadFileConnection_id | UploadFileConnectionId | UploadFileConnectionCreatedAt | UploadFileConnectionUpdatedAt | UploadFileConnectionName | UploadFileConnectionHash | UploadFileConnectionSha256 | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionProvider | UploadFileConnectionPublic_id | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnection_id | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnection_id | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
-  createArticle(input: createArticleInput): createArticlePayload
-  updateArticle(input: updateArticleInput): updateArticlePayload
-  deleteArticle(input: deleteArticleInput): deleteArticlePayload
+  createTicket(input: createTicketInput): createTicketPayload
+  updateTicket(input: updateTicketInput): updateTicketPayload
+  deleteTicket(input: deleteTicketInput): deleteTicketPayload
 
   """Create a new role"""
   createRole(input: createRoleInput): createRolePayload
@@ -205,21 +142,17 @@ type Mutation {
 }
 
 type Query {
-  article(id: ID!): Article
-  articles(sort: String, limit: Int, start: Int, where: JSON): [Article]
-  articlesConnection(sort: String, limit: Int, start: Int, where: JSON): ArticleConnection
+  ticket(id: ID!): Ticket
+  tickets(sort: String, limit: Int, start: Int, where: JSON): [Ticket]
   files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
-  filesConnection(sort: String, limit: Int, start: Int, where: JSON): UploadFileConnection
   role(id: ID!): UsersPermissionsRole
 
   """
   Retrieve all the existing roles. You can't apply filters on this query.
   """
   roles(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsRole]
-  rolesConnection(sort: String, limit: Int, start: Int, where: JSON): UsersPermissionsRoleConnection
   user(id: ID!): UsersPermissionsUser
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
-  usersConnection(sort: String, limit: Int, start: Int, where: JSON): UsersPermissionsUserConnection
   me: UsersPermissionsMe
 }
 
@@ -231,13 +164,20 @@ input RoleInput {
   users: [ID]
 }
 
-input updateArticleInput {
-  where: InputID
-  data: editArticleInput
+"""Ticket to the museum exhibition."""
+type Ticket {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String
+  description: String
+  price: Float
 }
 
-type updateArticlePayload {
-  article: Article
+input TicketInput {
+  name: String
+  description: String
+  price: Float
 }
 
 input updateRoleInput {
@@ -247,6 +187,15 @@ input updateRoleInput {
 
 type updateRolePayload {
   role: UsersPermissionsRole
+}
+
+input updateTicketInput {
+  where: InputID
+  data: editTicketInput
+}
+
+type updateTicketPayload {
+  ticket: Ticket
 }
 
 input updateUserInput {
@@ -262,10 +211,9 @@ type updateUserPayload {
 scalar Upload
 
 type UploadFile {
-  _id: ID!
   id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  created_at: DateTime!
+  updated_at: DateTime!
   name: String!
   hash: String!
   sha256: String
@@ -276,98 +224,6 @@ type UploadFile {
   provider: String!
   public_id: String
   related(sort: String, limit: Int, start: Int, where: JSON): [Morph]
-}
-
-type UploadFileAggregator {
-  count: Int
-  totalCount: Int
-}
-
-type UploadFileConnection {
-  values: [UploadFile]
-  groupBy: UploadFileGroupBy
-  aggregate: UploadFileAggregator
-}
-
-type UploadFileConnection_id {
-  key: ID
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionCreatedAt {
-  key: DateTime
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionExt {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionHash {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionId {
-  key: ID
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionMime {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionName {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionProvider {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionPublic_id {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionSha256 {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionSize {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionUpdatedAt {
-  key: DateTime
-  connection: UploadFileConnection
-}
-
-type UploadFileConnectionUrl {
-  key: String
-  connection: UploadFileConnection
-}
-
-type UploadFileGroupBy {
-  _id: [UploadFileConnection_id]
-  id: [UploadFileConnectionId]
-  createdAt: [UploadFileConnectionCreatedAt]
-  updatedAt: [UploadFileConnectionUpdatedAt]
-  name: [UploadFileConnectionName]
-  hash: [UploadFileConnectionHash]
-  sha256: [UploadFileConnectionSha256]
-  ext: [UploadFileConnectionExt]
-  mime: [UploadFileConnectionMime]
-  size: [UploadFileConnectionSize]
-  url: [UploadFileConnectionUrl]
-  provider: [UploadFileConnectionProvider]
-  public_id: [UploadFileConnectionPublic_id]
 }
 
 input UserInput {
@@ -398,7 +254,6 @@ type UsersPermissionsMeRole {
 }
 
 type UsersPermissionsPermission {
-  _id: ID!
   id: ID!
   type: String!
   controller: String!
@@ -409,7 +264,6 @@ type UsersPermissionsPermission {
 }
 
 type UsersPermissionsRole {
-  _id: ID!
   id: ID!
   name: String!
   description: String
@@ -418,52 +272,7 @@ type UsersPermissionsRole {
   users(sort: String, limit: Int, start: Int, where: JSON): [UsersPermissionsUser]
 }
 
-type UsersPermissionsRoleAggregator {
-  count: Int
-  totalCount: Int
-}
-
-type UsersPermissionsRoleConnection {
-  values: [UsersPermissionsRole]
-  groupBy: UsersPermissionsRoleGroupBy
-  aggregate: UsersPermissionsRoleAggregator
-}
-
-type UsersPermissionsRoleConnection_id {
-  key: ID
-  connection: UsersPermissionsRoleConnection
-}
-
-type UsersPermissionsRoleConnectionDescription {
-  key: String
-  connection: UsersPermissionsRoleConnection
-}
-
-type UsersPermissionsRoleConnectionId {
-  key: ID
-  connection: UsersPermissionsRoleConnection
-}
-
-type UsersPermissionsRoleConnectionName {
-  key: String
-  connection: UsersPermissionsRoleConnection
-}
-
-type UsersPermissionsRoleConnectionType {
-  key: String
-  connection: UsersPermissionsRoleConnection
-}
-
-type UsersPermissionsRoleGroupBy {
-  _id: [UsersPermissionsRoleConnection_id]
-  id: [UsersPermissionsRoleConnectionId]
-  name: [UsersPermissionsRoleConnectionName]
-  description: [UsersPermissionsRoleConnectionDescription]
-  type: [UsersPermissionsRoleConnectionType]
-}
-
 type UsersPermissionsUser {
-  _id: ID!
   id: ID!
   username: String!
   email: String!
@@ -471,66 +280,4 @@ type UsersPermissionsUser {
   confirmed: Boolean
   blocked: Boolean
   role: UsersPermissionsRole
-}
-
-type UsersPermissionsUserAggregator {
-  count: Int
-  totalCount: Int
-}
-
-type UsersPermissionsUserConnection {
-  values: [UsersPermissionsUser]
-  groupBy: UsersPermissionsUserGroupBy
-  aggregate: UsersPermissionsUserAggregator
-}
-
-type UsersPermissionsUserConnection_id {
-  key: ID
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionBlocked {
-  key: Boolean
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionConfirmed {
-  key: Boolean
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionEmail {
-  key: String
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionId {
-  key: ID
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionProvider {
-  key: String
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionRole {
-  key: ID
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserConnectionUsername {
-  key: String
-  connection: UsersPermissionsUserConnection
-}
-
-type UsersPermissionsUserGroupBy {
-  _id: [UsersPermissionsUserConnection_id]
-  id: [UsersPermissionsUserConnectionId]
-  username: [UsersPermissionsUserConnectionUsername]
-  email: [UsersPermissionsUserConnectionEmail]
-  provider: [UsersPermissionsUserConnectionProvider]
-  confirmed: [UsersPermissionsUserConnectionConfirmed]
-  blocked: [UsersPermissionsUserConnectionBlocked]
-  role: [UsersPermissionsUserConnectionRole]
 }

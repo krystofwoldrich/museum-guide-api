@@ -1,0 +1,36 @@
+{
+  "connection": "default",
+  "collectionName": "exhibitions",
+  "info": {
+    "name": "exhibition",
+    "description": "Future, past and present exhibition in the museum."
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "from": {
+      "type": "date"
+    },
+    "to": {
+      "type": "date"
+    },
+    "tickets": {
+      "collection": "ticket",
+      "via": "exhibitions",
+      "dominant": true
+    },
+    "sections": {
+      "collection": "section",
+      "via": "exhibition"
+    }
+  }
+}

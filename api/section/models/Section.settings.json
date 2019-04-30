@@ -1,9 +1,9 @@
 {
   "connection": "default",
-  "collectionName": "tickets",
+  "collectionName": "sections",
   "info": {
-    "name": "ticket",
-    "description": "Ticket to the museum exhibition.\n"
+    "name": "section",
+    "description": "Group of art pieces from the exhibition."
   },
   "options": {
     "increments": true,
@@ -17,12 +17,9 @@
     "description": {
       "type": "text"
     },
-    "price": {
-      "type": "float"
-    },
-    "exhibitions": {
-      "collection": "exhibition",
-      "via": "tickets"
+    "exhibition": {
+      "model": "exhibition",
+      "via": "sections"
     }
   }
 }

@@ -1,9 +1,25 @@
+input createExhibitionInput {
+  data: ExhibitionInput
+}
+
+type createExhibitionPayload {
+  exhibition: Exhibition
+}
+
 input createRoleInput {
   data: RoleInput
 }
 
 type createRolePayload {
   role: UsersPermissionsRole
+}
+
+input createSectionInput {
+  data: SectionInput
+}
+
+type createSectionPayload {
+  section: Section
 }
 
 input createTicketInput {
@@ -27,12 +43,28 @@ The `DateTime` scalar represents a date and time following the ISO 8601 standard
 """
 scalar DateTime
 
+input deleteExhibitionInput {
+  where: InputID
+}
+
+type deleteExhibitionPayload {
+  exhibition: Exhibition
+}
+
 input deleteRoleInput {
   where: InputID
 }
 
 type deleteRolePayload {
   role: UsersPermissionsRole
+}
+
+input deleteSectionInput {
+  where: InputID
+}
+
+type deleteSectionPayload {
+  section: Section
 }
 
 input deleteTicketInput {
@@ -49,6 +81,15 @@ input deleteUserInput {
 
 type deleteUserPayload {
   user: UsersPermissionsUser
+}
+
+input editExhibitionInput {
+  title: String
+  description: String
+  from: DateTime
+  to: DateTime
+  tickets: [ID]
+  sections: [ID]
 }
 
 input editFileInput {
@@ -72,10 +113,17 @@ input editRoleInput {
   users: [ID]
 }
 
+input editSectionInput {
+  name: String
+  description: String
+  exhibition: ID
+}
+
 input editTicketInput {
   name: String
   description: String
   price: Float
+  exhibitions: [ID]
 }
 
 input editUserInput {
@@ -87,6 +135,28 @@ input editUserInput {
   confirmed: Boolean
   blocked: Boolean
   role: ID
+}
+
+"""Future, past and present exhibition in the museum."""
+type Exhibition {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  title: String
+  description: String
+  from: DateTime
+  to: DateTime
+  tickets(sort: String, limit: Int, start: Int, where: JSON): [Ticket]
+  sections(sort: String, limit: Int, start: Int, where: JSON): [Section]
+}
+
+input ExhibitionInput {
+  title: String
+  description: String
+  from: DateTime
+  to: DateTime
+  tickets: [ID]
+  sections: [ID]
 }
 
 input FileInput {
@@ -114,9 +184,15 @@ scalar JSON
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
+  createExhibition(input: createExhibitionInput): createExhibitionPayload
+  updateExhibition(input: updateExhibitionInput): updateExhibitionPayload
+  deleteExhibition(input: deleteExhibitionInput): deleteExhibitionPayload
+  createSection(input: createSectionInput): createSectionPayload
+  updateSection(input: updateSectionInput): updateSectionPayload
+  deleteSection(input: deleteSectionInput): deleteSectionPayload
   createTicket(input: createTicketInput): createTicketPayload
   updateTicket(input: updateTicketInput): updateTicketPayload
   deleteTicket(input: deleteTicketInput): deleteTicketPayload
@@ -142,6 +218,10 @@ type Mutation {
 }
 
 type Query {
+  exhibition(id: ID!): Exhibition
+  exhibitions(sort: String, limit: Int, start: Int, where: JSON): [Exhibition]
+  section(id: ID!): Section
+  sections(sort: String, limit: Int, start: Int, where: JSON): [Section]
   ticket(id: ID!): Ticket
   tickets(sort: String, limit: Int, start: Int, where: JSON): [Ticket]
   files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
@@ -164,6 +244,22 @@ input RoleInput {
   users: [ID]
 }
 
+"""Group of art pieces from the exhibition."""
+type Section {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String
+  description: String
+  exhibition: Exhibition
+}
+
+input SectionInput {
+  name: String
+  description: String
+  exhibition: ID
+}
+
 """Ticket to the museum exhibition."""
 type Ticket {
   id: ID!
@@ -172,12 +268,23 @@ type Ticket {
   name: String
   description: String
   price: Float
+  exhibitions(sort: String, limit: Int, start: Int, where: JSON): [Exhibition]
 }
 
 input TicketInput {
   name: String
   description: String
   price: Float
+  exhibitions: [ID]
+}
+
+input updateExhibitionInput {
+  where: InputID
+  data: editExhibitionInput
+}
+
+type updateExhibitionPayload {
+  exhibition: Exhibition
 }
 
 input updateRoleInput {
@@ -187,6 +294,15 @@ input updateRoleInput {
 
 type updateRolePayload {
   role: UsersPermissionsRole
+}
+
+input updateSectionInput {
+  where: InputID
+  data: editSectionInput
+}
+
+type updateSectionPayload {
+  section: Section
 }
 
 input updateTicketInput {

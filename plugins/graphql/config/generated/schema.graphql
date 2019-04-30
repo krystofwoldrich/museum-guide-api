@@ -14,6 +14,14 @@ type createLocationPayload {
   location: Location
 }
 
+input createMultimediaInput {
+  data: MultimediaInput
+}
+
+type createMultimediaPayload {
+  multimedia: Multimedia
+}
+
 input createRoleInput {
   data: RoleInput
 }
@@ -73,6 +81,14 @@ input deleteLocationInput {
 
 type deleteLocationPayload {
   location: Location
+}
+
+input deleteMultimediaInput {
+  where: InputID
+}
+
+type deleteMultimediaPayload {
+  multimedia: Multimedia
 }
 
 input deleteRoleInput {
@@ -142,6 +158,13 @@ input editLocationInput {
   room: ID
 }
 
+input editMultimediaInput {
+  name: String
+  type: ENUM_MULTIMEDIA_TYPE
+  sourceFile: ID
+  section: ID
+}
+
 input editRoleInput {
   name: String
   description: String
@@ -160,6 +183,7 @@ input editSectionInput {
   name: String
   description: String
   exhibition: ID
+  multimedias: [ID]
 }
 
 input editTicketInput {
@@ -178,6 +202,13 @@ input editUserInput {
   confirmed: Boolean
   blocked: Boolean
   role: ID
+}
+
+enum ENUM_MULTIMEDIA_TYPE {
+  audio
+  video
+  text
+  picture
 }
 
 """Future, past and present exhibition in the museum."""
@@ -241,7 +272,27 @@ input LocationInput {
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+
+"""
+MediaResource is a universal enclosure around all media types. That includes audio, video, pictures, text and more.
+"""
+type Multimedia {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String
+  type: ENUM_MULTIMEDIA_TYPE
+  sourceFile: UploadFile
+  section: Section
+}
+
+input MultimediaInput {
+  name: String
+  type: ENUM_MULTIMEDIA_TYPE
+  sourceFile: ID
+  section: ID
+}
 
 type Mutation {
   createExhibition(input: createExhibitionInput): createExhibitionPayload
@@ -250,6 +301,9 @@ type Mutation {
   createLocation(input: createLocationInput): createLocationPayload
   updateLocation(input: updateLocationInput): updateLocationPayload
   deleteLocation(input: deleteLocationInput): deleteLocationPayload
+  createMultimedia(input: createMultimediaInput): createMultimediaPayload
+  updateMultimedia(input: updateMultimediaInput): updateMultimediaPayload
+  deleteMultimedia(input: deleteMultimediaInput): deleteMultimediaPayload
   createRoom(input: createRoomInput): createRoomPayload
   updateRoom(input: updateRoomInput): updateRoomPayload
   deleteRoom(input: deleteRoomInput): deleteRoomPayload
@@ -285,6 +339,8 @@ type Query {
   exhibitions(sort: String, limit: Int, start: Int, where: JSON): [Exhibition]
   location(id: ID!): Location
   locations(sort: String, limit: Int, start: Int, where: JSON): [Location]
+  multimedia(id: ID!): Multimedia
+  multimedias(sort: String, limit: Int, start: Int, where: JSON): [Multimedia]
   room(id: ID!): Room
   rooms(sort: String, limit: Int, start: Int, where: JSON): [Room]
   section(id: ID!): Section
@@ -337,12 +393,14 @@ type Section {
   name: String
   description: String
   exhibition: Exhibition
+  multimedias(sort: String, limit: Int, start: Int, where: JSON): [Multimedia]
 }
 
 input SectionInput {
   name: String
   description: String
   exhibition: ID
+  multimedias: [ID]
 }
 
 """Ticket to the museum exhibition."""
@@ -379,6 +437,15 @@ input updateLocationInput {
 
 type updateLocationPayload {
   location: Location
+}
+
+input updateMultimediaInput {
+  where: InputID
+  data: editMultimediaInput
+}
+
+type updateMultimediaPayload {
+  multimedia: Multimedia
 }
 
 input updateRoleInput {

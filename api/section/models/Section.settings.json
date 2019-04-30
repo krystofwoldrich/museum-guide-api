@@ -20,6 +20,10 @@
     "exhibition": {
       "model": "exhibition",
       "via": "sections"
+    },
+    "multimedias": {
+      "collection": "multimedia",
+      "via": "section"
     }
   }
 }

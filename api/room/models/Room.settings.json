@@ -1,0 +1,25 @@
+{
+  "connection": "default",
+  "collectionName": "rooms",
+  "info": {
+    "name": "room",
+    "description": "Room is a place typically inside of the museum building, where the exhibition happens."
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "number": {
+      "type": "string"
+    },
+    "locations": {
+      "collection": "location",
+      "via": "room"
+    }
+  }
+}

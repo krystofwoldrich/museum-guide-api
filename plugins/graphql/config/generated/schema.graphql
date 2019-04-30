@@ -6,12 +6,28 @@ type createExhibitionPayload {
   exhibition: Exhibition
 }
 
+input createLocationInput {
+  data: LocationInput
+}
+
+type createLocationPayload {
+  location: Location
+}
+
 input createRoleInput {
   data: RoleInput
 }
 
 type createRolePayload {
   role: UsersPermissionsRole
+}
+
+input createRoomInput {
+  data: RoomInput
+}
+
+type createRoomPayload {
+  room: Room
 }
 
 input createSectionInput {
@@ -51,12 +67,28 @@ type deleteExhibitionPayload {
   exhibition: Exhibition
 }
 
+input deleteLocationInput {
+  where: InputID
+}
+
+type deleteLocationPayload {
+  location: Location
+}
+
 input deleteRoleInput {
   where: InputID
 }
 
 type deleteRolePayload {
   role: UsersPermissionsRole
+}
+
+input deleteRoomInput {
+  where: InputID
+}
+
+type deleteRoomPayload {
+  room: Room
 }
 
 input deleteSectionInput {
@@ -105,12 +137,23 @@ input editFileInput {
   related: [ID]
 }
 
+input editLocationInput {
+  name: String
+  room: ID
+}
+
 input editRoleInput {
   name: String
   description: String
   type: String
   permissions: [ID]
   users: [ID]
+}
+
+input editRoomInput {
+  name: String
+  number: String
+  locations: [ID]
 }
 
 input editSectionInput {
@@ -181,15 +224,35 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
+"""Location is precise and easy to locate part of the room."""
+type Location {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String
+  room: Room
+}
+
+input LocationInput {
+  name: String
+  room: ID
+}
+
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
   createExhibition(input: createExhibitionInput): createExhibitionPayload
   updateExhibition(input: updateExhibitionInput): updateExhibitionPayload
   deleteExhibition(input: deleteExhibitionInput): deleteExhibitionPayload
+  createLocation(input: createLocationInput): createLocationPayload
+  updateLocation(input: updateLocationInput): updateLocationPayload
+  deleteLocation(input: deleteLocationInput): deleteLocationPayload
+  createRoom(input: createRoomInput): createRoomPayload
+  updateRoom(input: updateRoomInput): updateRoomPayload
+  deleteRoom(input: deleteRoomInput): deleteRoomPayload
   createSection(input: createSectionInput): createSectionPayload
   updateSection(input: updateSectionInput): updateSectionPayload
   deleteSection(input: deleteSectionInput): deleteSectionPayload
@@ -220,6 +283,10 @@ type Mutation {
 type Query {
   exhibition(id: ID!): Exhibition
   exhibitions(sort: String, limit: Int, start: Int, where: JSON): [Exhibition]
+  location(id: ID!): Location
+  locations(sort: String, limit: Int, start: Int, where: JSON): [Location]
+  room(id: ID!): Room
+  rooms(sort: String, limit: Int, start: Int, where: JSON): [Room]
   section(id: ID!): Section
   sections(sort: String, limit: Int, start: Int, where: JSON): [Section]
   ticket(id: ID!): Ticket
@@ -242,6 +309,24 @@ input RoleInput {
   type: String
   permissions: [ID]
   users: [ID]
+}
+
+"""
+Room is a place typically inside of the museum building, where the exhibition happens.
+"""
+type Room {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String
+  number: String
+  locations(sort: String, limit: Int, start: Int, where: JSON): [Location]
+}
+
+input RoomInput {
+  name: String
+  number: String
+  locations: [ID]
 }
 
 """Group of art pieces from the exhibition."""
@@ -287,6 +372,15 @@ type updateExhibitionPayload {
   exhibition: Exhibition
 }
 
+input updateLocationInput {
+  where: InputID
+  data: editLocationInput
+}
+
+type updateLocationPayload {
+  location: Location
+}
+
 input updateRoleInput {
   where: InputID
   data: editRoleInput
@@ -294,6 +388,15 @@ input updateRoleInput {
 
 type updateRolePayload {
   role: UsersPermissionsRole
+}
+
+input updateRoomInput {
+  where: InputID
+  data: editRoomInput
+}
+
+type updateRoomPayload {
+  room: Room
 }
 
 input updateSectionInput {

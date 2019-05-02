@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/sequences",
+      "handler": "Sequence.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sequences/count",
+      "handler": "Sequence.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sequences/:id",
+      "handler": "Sequence.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/sequences",
+      "handler": "Sequence.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/sequences/:id",
+      "handler": "Sequence.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/sequences/:id",
+      "handler": "Sequence.destroy",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "connection": "default",
+  "collectionName": "sequences",
+  "info": {
+    "name": "sequence",
+    "description": "The sequence is an ordered list of the multimedia objects in a step."
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "sequenceNumber": {
+      "type": "integer"
+    },
+    "multimedia": {
+      "model": "multimedia"
+    }
+  }
+}

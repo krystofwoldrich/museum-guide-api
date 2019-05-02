@@ -46,6 +46,14 @@ type createSectionPayload {
   section: Section
 }
 
+input createSequenceInput {
+  data: SequenceInput
+}
+
+type createSequencePayload {
+  sequence: Sequence
+}
+
 input createTicketInput {
   data: TicketInput
 }
@@ -113,6 +121,14 @@ input deleteSectionInput {
 
 type deleteSectionPayload {
   section: Section
+}
+
+input deleteSequenceInput {
+  where: InputID
+}
+
+type deleteSequencePayload {
+  sequence: Sequence
 }
 
 input deleteTicketInput {
@@ -184,6 +200,11 @@ input editSectionInput {
   description: String
   exhibition: ID
   multimedias: [ID]
+}
+
+input editSequenceInput {
+  sequenceNumber: Int
+  multimedia: ID
 }
 
 input editTicketInput {
@@ -272,7 +293,7 @@ input LocationInput {
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Sequence | createSequencePayload | updateSequencePayload | deleteSequencePayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 """
 MediaResource is a universal enclosure around all media types. That includes audio, video, pictures, text and more.
@@ -310,6 +331,9 @@ type Mutation {
   createSection(input: createSectionInput): createSectionPayload
   updateSection(input: updateSectionInput): updateSectionPayload
   deleteSection(input: deleteSectionInput): deleteSectionPayload
+  createSequence(input: createSequenceInput): createSequencePayload
+  updateSequence(input: updateSequenceInput): updateSequencePayload
+  deleteSequence(input: deleteSequenceInput): deleteSequencePayload
   createTicket(input: createTicketInput): createTicketPayload
   updateTicket(input: updateTicketInput): updateTicketPayload
   deleteTicket(input: deleteTicketInput): deleteTicketPayload
@@ -345,6 +369,8 @@ type Query {
   rooms(sort: String, limit: Int, start: Int, where: JSON): [Room]
   section(id: ID!): Section
   sections(sort: String, limit: Int, start: Int, where: JSON): [Section]
+  sequence(id: ID!): Sequence
+  sequences(sort: String, limit: Int, start: Int, where: JSON): [Sequence]
   ticket(id: ID!): Ticket
   tickets(sort: String, limit: Int, start: Int, where: JSON): [Ticket]
   files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
@@ -401,6 +427,20 @@ input SectionInput {
   description: String
   exhibition: ID
   multimedias: [ID]
+}
+
+"""The sequence is an ordered list of the multimedia objects in a step."""
+type Sequence {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  sequenceNumber: Int
+  multimedia: Multimedia
+}
+
+input SequenceInput {
+  sequenceNumber: Int
+  multimedia: ID
 }
 
 """Ticket to the museum exhibition."""
@@ -473,6 +513,15 @@ input updateSectionInput {
 
 type updateSectionPayload {
   section: Section
+}
+
+input updateSequenceInput {
+  where: InputID
+  data: editSequenceInput
+}
+
+type updateSequencePayload {
+  sequence: Sequence
 }
 
 input updateTicketInput {

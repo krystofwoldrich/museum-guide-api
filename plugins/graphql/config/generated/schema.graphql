@@ -70,6 +70,14 @@ type createTicketPayload {
   ticket: Ticket
 }
 
+input createTourInput {
+  data: TourInput
+}
+
+type createTourPayload {
+  tour: Tour
+}
+
 input createUserInput {
   data: UserInput
 }
@@ -155,6 +163,14 @@ type deleteTicketPayload {
   ticket: Ticket
 }
 
+input deleteTourInput {
+  where: InputID
+}
+
+type deleteTourPayload {
+  tour: Tour
+}
+
 input deleteUserInput {
   where: InputID
 }
@@ -231,6 +247,7 @@ input editStepInput {
   coverPicture: ID
   orderedMediaResources: [ID]
   locations: [ID]
+  tour: ID
 }
 
 input editTicketInput {
@@ -238,6 +255,12 @@ input editTicketInput {
   description: String
   price: Float
   exhibitions: [ID]
+}
+
+input editTourInput {
+  name: String
+  description: String
+  steps: [ID]
 }
 
 input editUserInput {
@@ -321,7 +344,7 @@ input LocationInput {
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Sequence | createSequencePayload | updateSequencePayload | deleteSequencePayload | Step | createStepPayload | updateStepPayload | deleteStepPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Sequence | createSequencePayload | updateSequencePayload | deleteSequencePayload | Step | createStepPayload | updateStepPayload | deleteStepPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | Tour | createTourPayload | updateTourPayload | deleteTourPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 """
 MediaResource is a universal enclosure around all media types. That includes audio, video, pictures, text and more.
@@ -368,6 +391,9 @@ type Mutation {
   createTicket(input: createTicketInput): createTicketPayload
   updateTicket(input: updateTicketInput): updateTicketPayload
   deleteTicket(input: deleteTicketInput): deleteTicketPayload
+  createTour(input: createTourInput): createTourPayload
+  updateTour(input: updateTourInput): updateTourPayload
+  deleteTour(input: deleteTourInput): deleteTourPayload
 
   """Create a new role"""
   createRole(input: createRoleInput): createRolePayload
@@ -406,6 +432,8 @@ type Query {
   steps(sort: String, limit: Int, start: Int, where: JSON): [Step]
   ticket(id: ID!): Ticket
   tickets(sort: String, limit: Int, start: Int, where: JSON): [Ticket]
+  tour(id: ID!): Tour
+  tours(sort: String, limit: Int, start: Int, where: JSON): [Tour]
   files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
   role(id: ID!): UsersPermissionsRole
 
@@ -486,6 +514,7 @@ type Step {
   title: String
   description: String
   coverPicture: UploadFile
+  tour: Tour
   orderedMediaResources(sort: String, limit: Int, start: Int, where: JSON): [Sequence]
   locations(sort: String, limit: Int, start: Int, where: JSON): [Location]
 }
@@ -496,6 +525,7 @@ input StepInput {
   coverPicture: ID
   orderedMediaResources: [ID]
   locations: [ID]
+  tour: ID
 }
 
 """Ticket to the museum exhibition."""
@@ -514,6 +544,22 @@ input TicketInput {
   description: String
   price: Float
   exhibitions: [ID]
+}
+
+"""The tour is a recommended way to experience an exhibition."""
+type Tour {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String
+  description: String
+  steps(sort: String, limit: Int, start: Int, where: JSON): [Step]
+}
+
+input TourInput {
+  name: String
+  description: String
+  steps: [ID]
 }
 
 input updateExhibitionInput {
@@ -595,6 +641,15 @@ input updateTicketInput {
 
 type updateTicketPayload {
   ticket: Ticket
+}
+
+input updateTourInput {
+  where: InputID
+  data: editTourInput
+}
+
+type updateTourPayload {
+  tour: Tour
 }
 
 input updateUserInput {

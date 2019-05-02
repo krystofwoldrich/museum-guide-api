@@ -1,0 +1,25 @@
+{
+  "connection": "default",
+  "collectionName": "tours",
+  "info": {
+    "name": "tour",
+    "description": "The tour is a recommended way to experience an exhibition."
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "steps": {
+      "collection": "step",
+      "via": "tour"
+    }
+  }
+}

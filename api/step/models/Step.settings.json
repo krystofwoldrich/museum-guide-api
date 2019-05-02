@@ -29,6 +29,10 @@
     "locations": {
       "collection": "location",
       "via": "step"
+    },
+    "tour": {
+      "model": "tour",
+      "via": "steps"
     }
   }
 }

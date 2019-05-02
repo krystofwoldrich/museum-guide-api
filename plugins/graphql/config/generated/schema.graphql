@@ -4,14 +4,14 @@ type Artwork {
   updated_at: DateTime!
   title: String
   description: String
-  createdAt: DateTime
+  made: DateTime
   mediaResources(sort: String, limit: Int, start: Int, where: JSON): [Multimedia]
 }
 
 input ArtworkInput {
   title: String
   description: String
-  createdAt: DateTime
+  made: DateTime
   mediaResources: [ID]
 }
 
@@ -249,7 +249,7 @@ type deleteUserPayload {
 input editArtworkInput {
   title: String
   description: String
-  createdAt: DateTime
+  made: DateTime
   mediaResources: [ID]
 }
 

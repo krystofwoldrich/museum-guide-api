@@ -54,6 +54,14 @@ type createSequencePayload {
   sequence: Sequence
 }
 
+input createStepInput {
+  data: StepInput
+}
+
+type createStepPayload {
+  step: Step
+}
+
 input createTicketInput {
   data: TicketInput
 }
@@ -131,6 +139,14 @@ type deleteSequencePayload {
   sequence: Sequence
 }
 
+input deleteStepInput {
+  where: InputID
+}
+
+type deleteStepPayload {
+  step: Step
+}
+
 input deleteTicketInput {
   where: InputID
 }
@@ -172,6 +188,7 @@ input editFileInput {
 input editLocationInput {
   name: String
   room: ID
+  step: ID
 }
 
 input editMultimediaInput {
@@ -205,6 +222,15 @@ input editSectionInput {
 input editSequenceInput {
   sequenceNumber: Int
   multimedia: ID
+  step: ID
+}
+
+input editStepInput {
+  title: String
+  description: String
+  coverPicture: ID
+  orderedMediaResources: [ID]
+  locations: [ID]
 }
 
 input editTicketInput {
@@ -283,17 +309,19 @@ type Location {
   updated_at: DateTime!
   name: String
   room: Room
+  step: Step
 }
 
 input LocationInput {
   name: String
   room: ID
+  step: ID
 }
 
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Sequence | createSequencePayload | updateSequencePayload | deleteSequencePayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Sequence | createSequencePayload | updateSequencePayload | deleteSequencePayload | Step | createStepPayload | updateStepPayload | deleteStepPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 """
 MediaResource is a universal enclosure around all media types. That includes audio, video, pictures, text and more.
@@ -334,6 +362,9 @@ type Mutation {
   createSequence(input: createSequenceInput): createSequencePayload
   updateSequence(input: updateSequenceInput): updateSequencePayload
   deleteSequence(input: deleteSequenceInput): deleteSequencePayload
+  createStep(input: createStepInput): createStepPayload
+  updateStep(input: updateStepInput): updateStepPayload
+  deleteStep(input: deleteStepInput): deleteStepPayload
   createTicket(input: createTicketInput): createTicketPayload
   updateTicket(input: updateTicketInput): updateTicketPayload
   deleteTicket(input: deleteTicketInput): deleteTicketPayload
@@ -371,6 +402,8 @@ type Query {
   sections(sort: String, limit: Int, start: Int, where: JSON): [Section]
   sequence(id: ID!): Sequence
   sequences(sort: String, limit: Int, start: Int, where: JSON): [Sequence]
+  step(id: ID!): Step
+  steps(sort: String, limit: Int, start: Int, where: JSON): [Step]
   ticket(id: ID!): Ticket
   tickets(sort: String, limit: Int, start: Int, where: JSON): [Ticket]
   files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
@@ -436,11 +469,33 @@ type Sequence {
   updated_at: DateTime!
   sequenceNumber: Int
   multimedia: Multimedia
+  step: Step
 }
 
 input SequenceInput {
   sequenceNumber: Int
   multimedia: ID
+  step: ID
+}
+
+"""List of steps creates a tour."""
+type Step {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  title: String
+  description: String
+  coverPicture: UploadFile
+  orderedMediaResources(sort: String, limit: Int, start: Int, where: JSON): [Sequence]
+  locations(sort: String, limit: Int, start: Int, where: JSON): [Location]
+}
+
+input StepInput {
+  title: String
+  description: String
+  coverPicture: ID
+  orderedMediaResources: [ID]
+  locations: [ID]
 }
 
 """Ticket to the museum exhibition."""
@@ -522,6 +577,15 @@ input updateSequenceInput {
 
 type updateSequencePayload {
   sequence: Sequence
+}
+
+input updateStepInput {
+  where: InputID
+  data: editStepInput
+}
+
+type updateStepPayload {
+  step: Step
 }
 
 input updateTicketInput {

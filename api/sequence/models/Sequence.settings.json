@@ -16,6 +16,10 @@
     },
     "multimedia": {
       "model": "multimedia"
+    },
+    "step": {
+      "model": "step",
+      "via": "orderedMediaResources"
     }
   }
 }

@@ -17,6 +17,10 @@
     "room": {
       "model": "room",
       "via": "locations"
+    },
+    "step": {
+      "model": "step",
+      "via": "locations"
     }
   }
 }

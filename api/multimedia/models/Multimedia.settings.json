@@ -31,6 +31,10 @@
     "section": {
       "model": "section",
       "via": "multimedias"
+    },
+    "artwork": {
+      "model": "artwork",
+      "via": "mediaResources"
     }
   }
 }

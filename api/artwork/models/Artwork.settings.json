@@ -1,0 +1,28 @@
+{
+  "connection": "default",
+  "collectionName": "artworks",
+  "info": {
+    "name": "artwork",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "createdAt": {
+      "type": "date"
+    },
+    "mediaResources": {
+      "collection": "multimedia",
+      "via": "artwork"
+    }
+  }
+}

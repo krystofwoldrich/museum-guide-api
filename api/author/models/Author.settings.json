@@ -1,0 +1,27 @@
+{
+  "connection": "default",
+  "collectionName": "authors",
+  "info": {
+    "name": "author",
+    "description": "Someone who made an artwork."
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "born": {
+      "type": "date"
+    },
+    "died": {
+      "type": "date"
+    }
+  }
+}

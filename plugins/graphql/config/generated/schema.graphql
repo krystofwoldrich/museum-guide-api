@@ -15,12 +15,38 @@ input ArtworkInput {
   mediaResources: [ID]
 }
 
+"""Someone who made an artwork."""
+type Author {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  Name: String
+  description: String
+  born: DateTime
+  died: DateTime
+}
+
+input AuthorInput {
+  Name: String
+  description: String
+  born: DateTime
+  died: DateTime
+}
+
 input createArtworkInput {
   data: ArtworkInput
 }
 
 type createArtworkPayload {
   artwork: Artwork
+}
+
+input createAuthorInput {
+  data: AuthorInput
+}
+
+type createAuthorPayload {
+  author: Author
 }
 
 input createExhibitionInput {
@@ -124,6 +150,14 @@ type deleteArtworkPayload {
   artwork: Artwork
 }
 
+input deleteAuthorInput {
+  where: InputID
+}
+
+type deleteAuthorPayload {
+  author: Author
+}
+
 input deleteExhibitionInput {
   where: InputID
 }
@@ -217,6 +251,13 @@ input editArtworkInput {
   description: String
   createdAt: DateTime
   mediaResources: [ID]
+}
+
+input editAuthorInput {
+  Name: String
+  description: String
+  born: DateTime
+  died: DateTime
 }
 
 input editExhibitionInput {
@@ -385,7 +426,7 @@ input LocationInput {
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Artwork | createArtworkPayload | updateArtworkPayload | deleteArtworkPayload | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Sequence | createSequencePayload | updateSequencePayload | deleteSequencePayload | Step | createStepPayload | updateStepPayload | deleteStepPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | Tour | createTourPayload | updateTourPayload | deleteTourPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Artwork | createArtworkPayload | updateArtworkPayload | deleteArtworkPayload | Author | createAuthorPayload | updateAuthorPayload | deleteAuthorPayload | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Sequence | createSequencePayload | updateSequencePayload | deleteSequencePayload | Step | createStepPayload | updateStepPayload | deleteStepPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | Tour | createTourPayload | updateTourPayload | deleteTourPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 """
 MediaResource is a universal enclosure around all media types. That includes audio, video, pictures, text and more.
@@ -413,6 +454,9 @@ type Mutation {
   createArtwork(input: createArtworkInput): createArtworkPayload
   updateArtwork(input: updateArtworkInput): updateArtworkPayload
   deleteArtwork(input: deleteArtworkInput): deleteArtworkPayload
+  createAuthor(input: createAuthorInput): createAuthorPayload
+  updateAuthor(input: updateAuthorInput): updateAuthorPayload
+  deleteAuthor(input: deleteAuthorInput): deleteAuthorPayload
   createExhibition(input: createExhibitionInput): createExhibitionPayload
   updateExhibition(input: updateExhibitionInput): updateExhibitionPayload
   deleteExhibition(input: deleteExhibitionInput): deleteExhibitionPayload
@@ -464,6 +508,8 @@ type Mutation {
 type Query {
   artwork(id: ID!): Artwork
   artworks(sort: String, limit: Int, start: Int, where: JSON): [Artwork]
+  author(id: ID!): Author
+  authors(sort: String, limit: Int, start: Int, where: JSON): [Author]
   exhibition(id: ID!): Exhibition
   exhibitions(sort: String, limit: Int, start: Int, where: JSON): [Exhibition]
   location(id: ID!): Location
@@ -617,6 +663,15 @@ input updateArtworkInput {
 
 type updateArtworkPayload {
   artwork: Artwork
+}
+
+input updateAuthorInput {
+  where: InputID
+  data: editAuthorInput
+}
+
+type updateAuthorPayload {
+  author: Author
 }
 
 input updateExhibitionInput {

@@ -5,6 +5,7 @@ type Artwork {
   title: String
   description: String
   made: DateTime
+  section: Section
   mediaResources(sort: String, limit: Int, start: Int, where: JSON): [Multimedia]
 }
 
@@ -13,6 +14,7 @@ input ArtworkInput {
   description: String
   made: DateTime
   mediaResources: [ID]
+  section: ID
 }
 
 """Someone who made an artwork."""
@@ -251,6 +253,7 @@ input editArtworkInput {
   description: String
   made: DateTime
   mediaResources: [ID]
+  section: ID
 }
 
 input editAuthorInput {
@@ -315,6 +318,7 @@ input editSectionInput {
   description: String
   exhibition: ID
   multimedias: [ID]
+  artworks: [ID]
 }
 
 input editSequenceInput {
@@ -575,6 +579,7 @@ type Section {
   description: String
   exhibition: Exhibition
   multimedias(sort: String, limit: Int, start: Int, where: JSON): [Multimedia]
+  artworks(sort: String, limit: Int, start: Int, where: JSON): [Artwork]
 }
 
 input SectionInput {
@@ -582,6 +587,7 @@ input SectionInput {
   description: String
   exhibition: ID
   multimedias: [ID]
+  artworks: [ID]
 }
 
 """The sequence is an ordered list of the multimedia objects in a step."""

@@ -23,6 +23,10 @@
     "mediaResources": {
       "collection": "multimedia",
       "via": "artwork"
+    },
+    "section": {
+      "model": "section",
+      "via": "artworks"
     }
   }
 }

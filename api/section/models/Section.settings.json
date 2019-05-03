@@ -24,6 +24,10 @@
     "multimedias": {
       "collection": "multimedia",
       "via": "section"
+    },
+    "artworks": {
+      "collection": "artwork",
+      "via": "section"
     }
   }
 }

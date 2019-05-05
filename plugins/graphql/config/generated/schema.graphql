@@ -6,6 +6,7 @@ type Artwork {
   description: String
   made: DateTime
   section: Section
+  author: Author
   mediaResources(sort: String, limit: Int, start: Int, where: JSON): [Multimedia]
 }
 
@@ -15,6 +16,7 @@ input ArtworkInput {
   made: DateTime
   mediaResources: [ID]
   section: ID
+  author: ID
 }
 
 """Someone who made an artwork."""
@@ -26,6 +28,7 @@ type Author {
   description: String
   born: DateTime
   died: DateTime
+  artworks(sort: String, limit: Int, start: Int, where: JSON): [Artwork]
 }
 
 input AuthorInput {
@@ -33,6 +36,7 @@ input AuthorInput {
   description: String
   born: DateTime
   died: DateTime
+  artworks: [ID]
 }
 
 input createArtworkInput {
@@ -254,6 +258,7 @@ input editArtworkInput {
   made: DateTime
   mediaResources: [ID]
   section: ID
+  author: ID
 }
 
 input editAuthorInput {
@@ -261,6 +266,7 @@ input editAuthorInput {
   description: String
   born: DateTime
   died: DateTime
+  artworks: [ID]
 }
 
 input editExhibitionInput {

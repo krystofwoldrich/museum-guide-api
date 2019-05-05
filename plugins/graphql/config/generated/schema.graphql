@@ -340,6 +340,7 @@ input editStepInput {
   orderedMediaResources: [ID]
   locations: [ID]
   tour: ID
+  index: Int
 }
 
 input editTicketInput {
@@ -621,6 +622,7 @@ type Step {
   description: String
   coverPicture: UploadFile
   tour: Tour
+  index: Int
   orderedMediaResources(sort: String, limit: Int, start: Int, where: JSON): [Sequence]
   locations(sort: String, limit: Int, start: Int, where: JSON): [Location]
 }
@@ -632,6 +634,7 @@ input StepInput {
   orderedMediaResources: [ID]
   locations: [ID]
   tour: ID
+  index: Int
 }
 
 """Ticket to the museum exhibition."""

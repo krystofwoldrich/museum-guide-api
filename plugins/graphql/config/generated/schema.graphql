@@ -55,6 +55,22 @@ type createAuthorPayload {
   author: Author
 }
 
+input createEventdateInput {
+  data: EventdateInput
+}
+
+type createEventdatePayload {
+  eventdate: Eventdate
+}
+
+input createEventInput {
+  data: EventInput
+}
+
+type createEventPayload {
+  event: Event
+}
+
 input createExhibitionInput {
   data: ExhibitionInput
 }
@@ -164,6 +180,22 @@ type deleteAuthorPayload {
   author: Author
 }
 
+input deleteEventdateInput {
+  where: InputID
+}
+
+type deleteEventdatePayload {
+  eventdate: Eventdate
+}
+
+input deleteEventInput {
+  where: InputID
+}
+
+type deleteEventPayload {
+  event: Event
+}
+
 input deleteExhibitionInput {
   where: InputID
 }
@@ -267,6 +299,19 @@ input editAuthorInput {
   born: DateTime
   died: DateTime
   artworks: [ID]
+}
+
+input editEventdateInput {
+  from: DateTime
+  to: DateTime
+  event: ID
+}
+
+input editEventInput {
+  title: String
+  description: String
+  cover: ID
+  eventdates: [ID]
 }
 
 input editExhibitionInput {
@@ -374,6 +419,42 @@ enum ENUM_MULTIMEDIA_TYPE {
   picture
 }
 
+"""
+When something is happening in the museum, you can create an event to inform visitors about it.
+"""
+type Event {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  title: String
+  description: String
+  cover: UploadFile
+  eventdates(sort: String, limit: Int, start: Int, where: JSON): [Eventdate]
+}
+
+"""An EventDate keeps information about when the event is happening."""
+type Eventdate {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  from: DateTime
+  to: DateTime
+  event: Event
+}
+
+input EventdateInput {
+  from: DateTime
+  to: DateTime
+  event: ID
+}
+
+input EventInput {
+  title: String
+  description: String
+  cover: ID
+  eventdates: [ID]
+}
+
 """Future, past and present exhibition in the museum."""
 type Exhibition {
   id: ID!
@@ -437,7 +518,7 @@ input LocationInput {
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Artwork | createArtworkPayload | updateArtworkPayload | deleteArtworkPayload | Author | createAuthorPayload | updateAuthorPayload | deleteAuthorPayload | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Sequence | createSequencePayload | updateSequencePayload | deleteSequencePayload | Step | createStepPayload | updateStepPayload | deleteStepPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | Tour | createTourPayload | updateTourPayload | deleteTourPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Artwork | createArtworkPayload | updateArtworkPayload | deleteArtworkPayload | Author | createAuthorPayload | updateAuthorPayload | deleteAuthorPayload | Event | createEventPayload | updateEventPayload | deleteEventPayload | Eventdate | createEventdatePayload | updateEventdatePayload | deleteEventdatePayload | Exhibition | createExhibitionPayload | updateExhibitionPayload | deleteExhibitionPayload | Location | createLocationPayload | updateLocationPayload | deleteLocationPayload | Multimedia | createMultimediaPayload | updateMultimediaPayload | deleteMultimediaPayload | Room | createRoomPayload | updateRoomPayload | deleteRoomPayload | Section | createSectionPayload | updateSectionPayload | deleteSectionPayload | Sequence | createSequencePayload | updateSequencePayload | deleteSequencePayload | Step | createStepPayload | updateStepPayload | deleteStepPayload | Ticket | createTicketPayload | updateTicketPayload | deleteTicketPayload | Tour | createTourPayload | updateTourPayload | deleteTourPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 """
 MediaResource is a universal enclosure around all media types. That includes audio, video, pictures, text and more.
@@ -468,6 +549,12 @@ type Mutation {
   createAuthor(input: createAuthorInput): createAuthorPayload
   updateAuthor(input: updateAuthorInput): updateAuthorPayload
   deleteAuthor(input: deleteAuthorInput): deleteAuthorPayload
+  createEvent(input: createEventInput): createEventPayload
+  updateEvent(input: updateEventInput): updateEventPayload
+  deleteEvent(input: deleteEventInput): deleteEventPayload
+  createEventdate(input: createEventdateInput): createEventdatePayload
+  updateEventdate(input: updateEventdateInput): updateEventdatePayload
+  deleteEventdate(input: deleteEventdateInput): deleteEventdatePayload
   createExhibition(input: createExhibitionInput): createExhibitionPayload
   updateExhibition(input: updateExhibitionInput): updateExhibitionPayload
   deleteExhibition(input: deleteExhibitionInput): deleteExhibitionPayload
@@ -521,6 +608,10 @@ type Query {
   artworks(sort: String, limit: Int, start: Int, where: JSON): [Artwork]
   author(id: ID!): Author
   authors(sort: String, limit: Int, start: Int, where: JSON): [Author]
+  event(id: ID!): Event
+  events(sort: String, limit: Int, start: Int, where: JSON): [Event]
+  eventdate(id: ID!): Eventdate
+  eventdates(sort: String, limit: Int, start: Int, where: JSON): [Eventdate]
   exhibition(id: ID!): Exhibition
   exhibitions(sort: String, limit: Int, start: Int, where: JSON): [Exhibition]
   location(id: ID!): Location
@@ -687,6 +778,24 @@ input updateAuthorInput {
 
 type updateAuthorPayload {
   author: Author
+}
+
+input updateEventdateInput {
+  where: InputID
+  data: editEventdateInput
+}
+
+type updateEventdatePayload {
+  eventdate: Eventdate
+}
+
+input updateEventInput {
+  where: InputID
+  data: editEventInput
+}
+
+type updateEventPayload {
+  event: Event
 }
 
 input updateExhibitionInput {

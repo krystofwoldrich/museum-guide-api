@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/eventdates",
+      "handler": "Eventdate.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/eventdates/count",
+      "handler": "Eventdate.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/eventdates/:id",
+      "handler": "Eventdate.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/eventdates",
+      "handler": "Eventdate.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/eventdates/:id",
+      "handler": "Eventdate.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/eventdates/:id",
+      "handler": "Eventdate.destroy",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

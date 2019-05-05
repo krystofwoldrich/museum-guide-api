@@ -1,0 +1,25 @@
+{
+  "connection": "default",
+  "collectionName": "eventdates",
+  "info": {
+    "name": "eventdate",
+    "description": "An EventDate keeps information about when the event is happening."
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "from": {
+      "type": "date"
+    },
+    "to": {
+      "type": "date"
+    },
+    "event": {
+      "model": "event",
+      "via": "eventdates"
+    }
+  }
+}

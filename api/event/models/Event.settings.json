@@ -1,0 +1,30 @@
+{
+  "connection": "default",
+  "collectionName": "events",
+  "info": {
+    "name": "event",
+    "description": "When something is happening in the museum, you can create an event to inform visitors about it."
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "cover": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload"
+    },
+    "eventdates": {
+      "collection": "eventdate",
+      "via": "event"
+    }
+  }
+}

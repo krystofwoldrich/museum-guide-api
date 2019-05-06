@@ -18,9 +18,9 @@
       "model": "room",
       "via": "locations"
     },
-    "step": {
-      "model": "step",
-      "via": "locations"
+    "steps": {
+      "collection": "step",
+      "via": "location"
     }
   }
 }

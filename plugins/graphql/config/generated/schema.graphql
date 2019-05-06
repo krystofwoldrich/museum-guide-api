@@ -340,7 +340,7 @@ input editFileInput {
 input editLocationInput {
   name: String
   room: ID
-  step: ID
+  steps: [ID]
 }
 
 input editMultimediaInput {
@@ -384,7 +384,7 @@ input editStepInput {
   description: String
   coverPicture: ID
   orderedMediaResources: [ID]
-  locations: [ID]
+  location: ID
   tour: ID
   index: Int
 }
@@ -510,13 +510,13 @@ type Location {
   updated_at: DateTime!
   name: String
   room: Room
-  step: Step
+  steps(sort: String, limit: Int, start: Int, where: JSON): [Step]
 }
 
 input LocationInput {
   name: String
   room: ID
-  step: ID
+  steps: [ID]
 }
 
 """The `Long` scalar type represents 52-bit integers"""
@@ -716,10 +716,10 @@ type Step {
   title: String
   description: String
   coverPicture: UploadFile
+  location: Location
   tour: Tour
   index: Int
   orderedMediaResources(sort: String, limit: Int, start: Int, where: JSON): [Sequence]
-  locations(sort: String, limit: Int, start: Int, where: JSON): [Location]
 }
 
 input StepInput {
@@ -727,7 +727,7 @@ input StepInput {
   description: String
   coverPicture: ID
   orderedMediaResources: [ID]
-  locations: [ID]
+  location: ID
   tour: ID
   index: Int
 }

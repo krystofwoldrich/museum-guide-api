@@ -26,9 +26,9 @@
       "collection": "sequence",
       "via": "step"
     },
-    "locations": {
-      "collection": "location",
-      "via": "step"
+    "location": {
+      "model": "location",
+      "via": "steps"
     },
     "tour": {
       "model": "tour",

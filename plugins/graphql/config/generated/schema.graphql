@@ -321,6 +321,7 @@ input editExhibitionInput {
   to: DateTime
   tickets: [ID]
   sections: [ID]
+  tours: [ID]
 }
 
 input editFileInput {
@@ -399,6 +400,7 @@ input editTourInput {
   name: String
   description: String
   steps: [ID]
+  exhibition: ID
 }
 
 input editUserInput {
@@ -466,6 +468,7 @@ type Exhibition {
   to: DateTime
   tickets(sort: String, limit: Int, start: Int, where: JSON): [Ticket]
   sections(sort: String, limit: Int, start: Int, where: JSON): [Section]
+  tours(sort: String, limit: Int, start: Int, where: JSON): [Tour]
 }
 
 input ExhibitionInput {
@@ -475,6 +478,7 @@ input ExhibitionInput {
   to: DateTime
   tickets: [ID]
   sections: [ID]
+  tours: [ID]
 }
 
 input FileInput {
@@ -753,6 +757,7 @@ type Tour {
   updated_at: DateTime!
   name: String
   description: String
+  exhibition: Exhibition
   steps(sort: String, limit: Int, start: Int, where: JSON): [Step]
 }
 
@@ -760,6 +765,7 @@ input TourInput {
   name: String
   description: String
   steps: [ID]
+  exhibition: ID
 }
 
 input updateArtworkInput {

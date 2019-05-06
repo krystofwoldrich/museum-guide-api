@@ -20,6 +20,10 @@
     "steps": {
       "collection": "step",
       "via": "tour"
+    },
+    "exhibition": {
+      "model": "exhibition",
+      "via": "tours"
     }
   }
 }

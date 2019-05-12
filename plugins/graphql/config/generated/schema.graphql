@@ -403,6 +403,7 @@ input editTourInput {
   description: String
   steps: [ID]
   exhibition: ID
+  coverPicture: ID
 }
 
 input editUserInput {
@@ -764,6 +765,7 @@ type Tour {
   name: String
   description: String
   exhibition: Exhibition
+  coverPicture: Multimedia
   steps(sort: String, limit: Int, start: Int, where: JSON): [Step]
 }
 
@@ -772,6 +774,7 @@ input TourInput {
   description: String
   steps: [ID]
   exhibition: ID
+  coverPicture: ID
 }
 
 input updateArtworkInput {

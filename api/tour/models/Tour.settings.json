@@ -24,6 +24,9 @@
     "exhibition": {
       "model": "exhibition",
       "via": "tours"
+    },
+    "coverPicture": {
+      "model": "multimedia"
     }
   }
 }

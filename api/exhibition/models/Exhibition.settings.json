@@ -35,6 +35,9 @@
     "tours": {
       "collection": "tour",
       "via": "exhibition"
+    },
+    "coverPicture": {
+      "model": "multimedia"
     }
   }
 }

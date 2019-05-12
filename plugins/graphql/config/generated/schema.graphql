@@ -322,6 +322,7 @@ input editExhibitionInput {
   tickets: [ID]
   sections: [ID]
   tours: [ID]
+  coverPicture: ID
 }
 
 input editFileInput {
@@ -466,6 +467,7 @@ type Exhibition {
   description: String
   from: DateTime
   to: DateTime
+  coverPicture: Multimedia
   tickets(sort: String, limit: Int, start: Int, where: JSON): [Ticket]
   sections(sort: String, limit: Int, start: Int, where: JSON): [Section]
   tours(sort: String, limit: Int, start: Int, where: JSON): [Tour]
@@ -479,6 +481,7 @@ input ExhibitionInput {
   tickets: [ID]
   sections: [ID]
   tours: [ID]
+  coverPicture: ID
 }
 
 input FileInput {

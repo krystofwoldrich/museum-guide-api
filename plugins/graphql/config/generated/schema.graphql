@@ -372,6 +372,7 @@ input editSectionInput {
   exhibition: ID
   multimedias: [ID]
   artworks: [ID]
+  coverPicture: ID
 }
 
 input editSequenceInput {
@@ -683,6 +684,7 @@ type Section {
   name: String
   description: String
   exhibition: Exhibition
+  coverPicture: Multimedia
   multimedias(sort: String, limit: Int, start: Int, where: JSON): [Multimedia]
   artworks(sort: String, limit: Int, start: Int, where: JSON): [Artwork]
 }
@@ -693,6 +695,7 @@ input SectionInput {
   exhibition: ID
   multimedias: [ID]
   artworks: [ID]
+  coverPicture: ID
 }
 
 """The sequence is an ordered list of the multimedia objects in a step."""

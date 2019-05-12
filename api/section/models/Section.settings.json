@@ -28,6 +28,9 @@
     "artworks": {
       "collection": "artwork",
       "via": "section"
+    },
+    "coverPicture": {
+      "model": "multimedia"
     }
   }
 }

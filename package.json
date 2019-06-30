@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "jquery": "1.9.1",
-    "knex": "latest",
+    "knex": "0.14.5",
     "lodash": "4.17.5",
     "pg": "7.10.0",
     "sqlite3": "4.0.6",
